@@ -120,78 +120,13 @@ function createSeedData() {
     }
   ],
   "skills": [
-    {
-      "id": "skill-1",
-      "name": "C",
-      "category": "Programming",
-      "level": 40
-    },
-    {
-      "id": "skill-2",
-      "name": "C++",
-      "category": "Programming",
-      "level": 40
-    },
-    {
-      "id": "skill-3",
-      "name": "Python",
-      "category": "Programming",
-      "level": 40
-    },
-    {
-      "id": "skill-4",
-      "name": "JavaScript",
-      "category": "Programming",
-      "level": 40
-    },
-    {
-      "id": "skill-5",
-      "name": "HTML",
-      "category": "Frontend",
-      "level": 40
-    },
-    {
-      "id": "skill-6",
-      "name": "CSS",
-      "category": "Frontend",
-      "level": 40
-    },
-    {
-      "id": "skill-7",
-      "name": "REST APIs",
-      "category": "Backend",
-      "level": 40
-    },
-    {
-      "id": "skill-8",
-      "name": "Google Cloud",
-      "category": "Cloud",
-      "level": 40
-    },
-    {
-      "id": "skill-9",
-      "name": "Cybersecurity Fundamentals",
-      "category": "Security",
-      "level": 40
-    },
-    {
-      "id": "skill-10",
-      "name": "AI Security",
-      "category": "Security",
-      "level": 40
-    },
-    {
-      "id": "skill-11",
-      "name": "Git",
-      "category": "Development Tools",
-      "level": 40
-    },
-    {
-      "id": "skill-12",
-      "name": "GitHub",
-      "category": "Development Tools",
-      "level": 40
-    }
+    {"id":"skill-1","name":"Python (Basics)","category":"Programming","level":40},
+    {"id":"skill-2","name":"C (Basics)","category":"Programming","level":40},
+    {"id":"skill-3","name":"Java (Basics)","category":"Programming","level":40},
+    {"id":"skill-4","name":"Cybersecurity Fundamentals","category":"Security","level":40},
+    {"id":"skill-5","name":"Git","category":"Developer Tools","level":40},
+    {"id":"skill-6","name":"GitHub","category":"Developer Tools","level":40},
+    {"id":"skill-7","name":"HTML & CSS (Basics)","category":"Web Development","level":40}
   ],
   "achievements": [
     {
@@ -221,20 +156,6 @@ function createSeedData() {
       "issuer": "AWS Builder Center",
       "year": 2026,
       "description": "Participated in a technical event exploring AWS, cloud computing, Docker and Kubernetes."
-    },
-    {
-      "id": "achievement-5",
-      "title": "Jigyasa Scientific Outreach Programme",
-      "issuer": "CSIR - National Aerospace Laboratories",
-      "year": 2023,
-      "description": "Participated in a scientific outreach programme exploring aerospace research and engineering."
-    },
-    {
-      "id": "achievement-6",
-      "title": "Take Charge - Global Battery Experiment",
-      "issuer": "Royal Society of Chemistry",
-      "year": 2022,
-      "description": "Participated in an international science experiment exploring batteries and electrochemistry."
     }
   ]
 },
