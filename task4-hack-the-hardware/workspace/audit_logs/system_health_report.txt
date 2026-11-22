@@ -1,0 +1,32 @@
+======================================
+        SYSTEM HEALTH REPORT
+======================================
+Generated: Sat Nov 21 12:59:15 PM UTC 2026
+Hostname: marvel-ubuntu
+Username: shreya
+
+[1] UPTIME
+up 27 minutes
+
+[2] CPU
+Architecture: aarch64
+Kernel: 7.0.0-44-generic
+Logical processors: 2
+Visible physical cores: 2
+
+[3] MEMORY FROM /proc/meminfo
+Total memory: 3381.12 MiB
+Estimated active usage: 400.05 MiB
+Available memory: 2981.07 MiB
+
+[4] CURRENT USER PROCESSES
+    PID    PPID %CPU %MEM   RSS COMMAND
+   1366       1  0.0  0.3 13804 systemd
+   6552    6493  0.0  0.2  9280 sshd-session
+   1400    1057  0.0  0.2  7384 bash
+   6553    6552  0.0  0.1  5676 bash
+  11361   11341  0.0  0.1  4020 ps
+   1376    1366  0.0  0.1  3900 (sd-pam)
+  11341    6553  0.0  0.1  3876 bash
+
+======================================

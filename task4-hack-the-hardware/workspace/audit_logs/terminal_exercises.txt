@@ -1,0 +1,22 @@
+WORKING DIRECTORY
+/home/shreya
+
+FILESYSTEM
+total 16
+drwxrwxr-x 3 shreya shreya 4096 Nov 21 12:45 .
+drwxr-x--- 5 shreya shreya 4096 Nov 21 12:45 ..
+drwx------ 2 shreya shreya 4096 Nov 21 12:45 audit_logs
+-rwxrwxr-x 1 shreya shreya 1309 Nov 21 12:45 system_health.sh
+
+AUDIT DIRECTORY
+drwx------ 2 shreya shreya 4096 Nov 21 12:45 /home/shreya/workspace/audit_logs
+
+STORAGE
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   11G  3.8G  6.4G  37% /
+
+UPTIME
+ 12:45:16 up 13 min,  2 users,  load average: 0.44, 0.38, 0.19
+
+KERNEL
+Linux marvel-ubuntu 7.0.0-44-generic #44-Ubuntu SMP PREEMPT_DYNAMIC Fri Nov  6 02:50:28 UTC 2026 aarch64 GNU/Linux
