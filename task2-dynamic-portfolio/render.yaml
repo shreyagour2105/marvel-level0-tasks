@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dynamic-portfolio
+    runtime: node
+    plan: free
+    buildCommand: npm --prefix backend ci --omit=dev && npm --prefix frontend ci --include=dev && npm --prefix frontend run build
+    startCommand: npm --prefix backend start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_FILE
+        value: ./data/portfolio.json
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@portfolio.dev
+      - key: ADMIN_PASSWORD
+        sync: false

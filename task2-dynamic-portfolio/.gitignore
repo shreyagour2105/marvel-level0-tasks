@@ -1,0 +1,8 @@
+.env
+**/.env
+**/node_modules/
+frontend/dist/
+backend/data/*.tmp
+backend/data/*.json
+!backend/data/.gitkeep
+.DS_Store

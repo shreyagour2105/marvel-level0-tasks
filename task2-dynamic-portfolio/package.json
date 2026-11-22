@@ -1,0 +1,9 @@
+{
+  "name": "dynamic-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=production node backend/src/server.js",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix backend test && npm --prefix frontend run lint && npm --prefix frontend run build"
+  }
+}
