@@ -6,16 +6,21 @@ A collection of my practical learning and project submissions for **MARVEL Level
 
 | Task | Title | Work / Evidence |
 | --- | --- | --- |
-| **Task 2** | Dynamic Portfolio & Admin Dashboard | [Separate project repository](https://github.com/shreyagour2105/dynamic-portfolio) |
+| **Task 2** | Dynamic Portfolio & Admin Dashboard | [Source files](task2-dynamic-portfolio/) |
+| **Task 3** | Working with GitHub | [Original task repository](https://github.com/shreyagour2105/git-task) |
 | **Task 4** | Hack the Hardware | [Linux, CPU architecture, and Hack assembly](task4-hack-the-hardware/) |
 | **Task 5** | Operation Blackout | [NumPy decoding and Matplotlib visualizations](task5-operation-blackout/) |
 | **Task 6** | Build Your Own Brain | [Linear regression project](linear_regression.py) |
 
 ## Task 2 — Dynamic Portfolio & Admin Dashboard
 
-A public portfolio and admin dashboard project with separate frontend and backend code. The application is maintained in its own repository to keep its development history and deployment setup independent.
+A public portfolio and admin dashboard project with separate frontend and backend code. The source files are included in [task2-dynamic-portfolio/](task2-dynamic-portfolio/), with separate frontend and backend directories.
 
-**Repository:** https://github.com/shreyagour2105/dynamic-portfolio
+**Files:** [task2-dynamic-portfolio/](task2-dynamic-portfolio/)
+
+## Task 3 — Working with GitHub
+
+Practised branching, issues, pull requests, GitHub Actions checks, and merge conflict resolution. The original [git-task repository](https://github.com/shreyagour2105/git-task) contains the Python exercises and workflow. Its issue/PR history cannot be transferred just by copying files into this repository.
 
 ## Task 4 — Hack the Hardware
 
