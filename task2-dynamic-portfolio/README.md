@@ -16,7 +16,7 @@ A full-stack portfolio with a responsive public site and authenticated content d
 - Node test suite covering public access, authentication, CRUD, validation, and persistence
 - Single-service production deployment: Express serves the Vite build
 
-The initial content contains six personal projects, twelve skills and six unique achievements. Skill percentages are self-assessment placeholders, not certified proficiency scores.
+The initial content contains six projects, seven beginner-level skills, and four recent milestones. The public site displays learning-stage labels rather than numerical proficiency scores.
 
 ## Architecture
 
@@ -105,7 +105,7 @@ The app is then available from the backend port (default `5000`). SPA routes fal
 
 - Public portfolio: https://dynamic-portfolio-zek3.onrender.com
 - Admin dashboard: https://dynamic-portfolio-zek3.onrender.com/admin
-- Repository: https://github.com/shreyagour2105/dynamic-portfolio
+- Repository: https://github.com/shreyagour2105/marvel-level0-tasks/tree/main/task2-dynamic-portfolio
 
 For CRUD evidence, sign in, create a temporary project or skill, edit it, verify the public page reflects the change, then delete the temporary entry. Capture before/after screenshots. Never include passwords or tokens in screenshots.
 
@@ -117,3 +117,12 @@ Fresh installations load the personalized seed. Existing JSON data is retained a
 - Project visuals are generated editorial mockups; image upload is not implemented.
 - JWT logout is client-side; server-side token revocation is not implemented.
 - The API has no rate limiter. Add one before exposing the login route to sustained public traffic.
+
+## Content updates (November 2026)
+
+- Removed the 2023 CSIR–NAL Jigyasa and 2022 Royal Society of Chemistry Take Charge milestones from the initial portfolio data.
+- Simplified the initial skills to Python, C, Java (basics), cybersecurity fundamentals, Git, GitHub, and HTML/CSS basics.
+- Removed public skill percentage bars and added prominent LinkedIn navigation.
+- Reworded the projects section to avoid describing actual student projects as generic demo case studies.
+
+**Deployment note:** These changes update the repository source and default seed data. Existing deployed JSON data will not automatically be overwritten. If the hosted app already has a data file, update its skills and achievements in the admin dashboard or deliberately reseed after backing up the existing data. Also redeploy the updated frontend/backend from this consolidated repository.
