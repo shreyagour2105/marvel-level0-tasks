@@ -7,9 +7,23 @@ const bcrypt = require('bcryptjs');
 const { body } = require('express-validator');
 const { JsonStore } = require('./store');
 const { authenticate, validate, notFound, errorHandler } = require('./middleware');
+const { decodeProjectImage, maxImageBytes, publicProject, projectInput } = require('./project-images');
 
-const publicFields = ({ users, ...data }) => data;
+const publicFields = ({ users, contentVersion, projects, ...data }) => ({
+  ...data,
+  projects: projects.map(publicProject),
+});
 const collections = ['projects', 'skills', 'achievements'];
+
+function optionalProjectUrl(field) {
+  return body(field).optional({ values: 'null' })
+    .isString().bail().trim()
+    .custom((value) => {
+      if (value === '') return true;
+      const url = new URL(value);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    }).withMessage('Enter an HTTP or HTTPS URL');
+}
 
 function createApp(options = {}) {
   const app = express();
@@ -18,12 +32,28 @@ function createApp(options = {}) {
 
   app.disable('x-powered-by');
   app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(',') || true }));
-  app.use(express.json({ limit: '250kb' }));
+  const json = express.json({ limit: '250kb' });
+  const projectJson = express.json({ limit: 4 * Math.ceil(maxImageBytes / 3) + 250 * 1024 });
+  app.use((req, res, next) => {
+    const isProjectWrite = /^(POST|PUT)$/.test(req.method) && /^\/api\/projects(?:\/[^/]+)?\/?$/i.test(req.path);
+    return isProjectWrite ? next() : json(req, res, next);
+  });
 
   app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
   app.get('/api/portfolio', (req, res) => res.json(publicFields(store.read())));
+  app.get('/api/projects/:id/image', (req, res) => {
+    const project = store.read().projects.find(({ id }) => id === req.params.id);
+    const image = decodeProjectImage(project?.imageData);
+    if (!image) return notFound(req, res);
+    return res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': image.type,
+      'X-Content-Type-Options': 'nosniff',
+    }).send(image.bytes);
+  });
   for (const collection of collections) {
-    app.get(`/api/${collection}`, (req, res) => res.json(store.read()[collection]));
+    const present = collection === 'projects' ? publicProject : (item) => item;
+    app.get(`/api/${collection}`, (req, res) => res.json(store.read()[collection].map(present)));
   }
   app.get('/api/profile', (req, res) => res.json(store.read().profile));
 
@@ -40,26 +70,40 @@ function createApp(options = {}) {
   });
 
   const validators = {
-    projects: [body('title').trim().notEmpty(), body('summary').trim().notEmpty(), body('technologies').isArray(), body('year').isInt({ min: 1990, max: 2100 })],
+    projects: [
+      body('title').trim().notEmpty(),
+      body('summary').trim().notEmpty(),
+      body('technologies').isArray(),
+      body('year').isInt({ min: 1990, max: 2100 }),
+      optionalProjectUrl('liveUrl'),
+      optionalProjectUrl('repositoryUrl'),
+      body('imageData').optional().custom((value) => Boolean(decodeProjectImage(value)))
+        .withMessage('Upload a PNG, JPEG, or WebP screenshot up to 2 MB').hide(),
+      body('imageAlt').optional().isString().trim().isLength({ max: 250 }),
+    ],
     skills: [body('name').trim().notEmpty(), body('category').trim().notEmpty(), body('level').isInt({ min: 0, max: 100 })],
     achievements: [body('title').trim().notEmpty(), body('issuer').trim().notEmpty(), body('year').isInt({ min: 1990, max: 2100 })],
   };
 
   for (const collection of collections) {
-    app.post(`/api/${collection}`, authenticate, validators[collection], validate, (req, res) => {
-      const item = { ...req.body, id: crypto.randomUUID() };
+    const isProject = collection === 'projects';
+    const parser = isProject ? [projectJson] : [];
+    const input = isProject ? projectInput : (item) => item;
+    const present = isProject ? publicProject : (item) => item;
+    app.post(`/api/${collection}`, authenticate, ...parser, validators[collection], validate, (req, res) => {
+      const item = { ...input(req.body), id: crypto.randomUUID() };
       store.update((data) => data[collection].push(item));
-      res.status(201).json(item);
+      res.status(201).json(present(item));
     });
-    app.put(`/api/${collection}/:id`, authenticate, validators[collection], validate, (req, res) => {
+    app.put(`/api/${collection}/:id`, authenticate, ...parser, validators[collection], validate, (req, res) => {
       let updated;
       store.update((data) => {
         const index = data[collection].findIndex((item) => item.id === req.params.id);
         if (index < 0) return;
-        updated = { ...data[collection][index], ...req.body, id: req.params.id };
+        updated = { ...data[collection][index], ...input(req.body), id: req.params.id };
         data[collection][index] = updated;
       });
-      return updated ? res.json(updated) : res.status(404).json({ error: 'Record not found' });
+      return updated ? res.json(present(updated)) : res.status(404).json({ error: 'Record not found' });
     });
     app.delete(`/api/${collection}/:id`, authenticate, (req, res) => {
       let removed = false;
@@ -77,6 +121,7 @@ function createApp(options = {}) {
     body('headline').trim().notEmpty(), body('bio').trim().notEmpty(),
   ], validate, (req, res) => {
     const profile = { ...req.body, id: 'profile' };
+    delete profile.availability;
     store.update((data) => { data.profile = profile; });
     res.json(profile);
   });

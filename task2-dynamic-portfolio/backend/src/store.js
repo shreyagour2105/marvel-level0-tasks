@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { createSeedData } = require('./seed');
+const { createSeedData, refreshPortfolioContent } = require('./seed');
 
 class JsonStore {
   constructor(filePath) {
@@ -10,7 +10,12 @@ class JsonStore {
 
   ensure() {
     fs.mkdirSync(path.dirname(this.filePath), { recursive: true });
-    if (!fs.existsSync(this.filePath)) this.write(createSeedData());
+    if (!fs.existsSync(this.filePath)) {
+      this.write(createSeedData());
+      return;
+    }
+    const data = this.read();
+    if (refreshPortfolioContent(data)) this.write(data);
   }
 
   read() {

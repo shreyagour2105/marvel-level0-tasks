@@ -16,7 +16,7 @@ A full-stack portfolio with a responsive public site and authenticated content d
 - Node test suite covering public access, authentication, CRUD, validation, and persistence
 - Single-service production deployment: Express serves the Vite build
 
-The initial content contains six projects, seven beginner-level skills, and four recent milestones. The public site displays learning-stage labels rather than numerical proficiency scores.
+The initial content contains seven featured projects with screenshots, seven beginner-level skills, and four recent milestones. The public site uses learning-stage labels for skills.
 
 ## Architecture
 
@@ -62,7 +62,7 @@ The default credentials are used only when no admin environment variables exist.
 ## Commands
 
 ```bash
-npm --prefix backend test
+npm test
 npm --prefix backend start
 npm --prefix frontend run lint
 npm --prefix frontend run build
@@ -76,6 +76,7 @@ Public routes:
 - `GET /api/portfolio`
 - `GET /api/profile`
 - `GET /api/projects`, `/api/skills`, `/api/achievements`
+- `GET /api/projects/:id/image` for screenshots uploaded through the dashboard
 - `POST /api/auth/login`
 
 Authenticated routes require `Authorization: Bearer <token>`:
@@ -88,6 +89,10 @@ Authenticated routes require `Authorization: Bearer <token>`:
 
 Local data is created on first backend start at `backend/data/portfolio.json`. Writes use a temporary file and atomic rename. Back up this file before large content changes. JSON storage is appropriate for a single-instance personal portfolio; use a database when adding multiple administrators, concurrent writers, audit history, or high availability.
 
+The portfolio update refreshes the featured project records and introductory copy once when it opens an older data file. It preserves existing admin accounts, other projects, and subsequent edits.
+
+To add or replace a screenshot, open **Admin → Projects**, then create or edit a project. Choose a PNG, JPEG, or WebP up to 2 MB, enter descriptive alt text, and save. The bundled screenshots live in `frontend/public/assets/projects/`. The app stores uploads in the same JSON data file as the project record.
+
 ## Production build
 
 ```bash
@@ -99,7 +104,7 @@ The app is then available from the backend port (default `5000`). SPA routes fal
 
 ## Deployment
 
-`render.yaml` configures a single free Render web service with ephemeral JSON storage. Before creating the service, set the secret `ADMIN_PASSWORD`; Render generates `JWT_SECRET`. No paid disk is configured. Hosted edits may be lost on restart or redeployment; personalized seed content is restored on fresh startup. Persistent hosted edits require durable storage.
+`render.yaml` configures a single free Render web service with ephemeral JSON storage. Before creating the service, set the secret `ADMIN_PASSWORD`. Render generates `JWT_SECRET`. Hosted edits and uploaded screenshots can be lost on restart or redeployment. To retain them across Render restarts, attach a persistent disk on a supported plan and set `DATA_FILE` to the full path of `portfolio.json` on that disk. Copy your existing data file to the disk before starting the service if you want to keep its records.
 
 ## Submission and verification
 
@@ -109,12 +114,11 @@ The app is then available from the backend port (default `5000`). SPA routes fal
 
 For CRUD evidence, sign in, create a temporary project or skill, edit it, verify the public page reflects the change, then delete the temporary entry. Capture before/after screenshots. Never include passwords or tokens in screenshots.
 
-Fresh installations load the personalized seed. Existing JSON data is retained across restarts when stored on a persistent disk. Production verification and screenshots remain pending.
+Fresh installations load the personalized seed. Existing JSON data is retained across restarts when stored on a persistent disk.
 
 ## Current limitations
 
 - JSON persistence supports one application instance, not horizontal scaling.
-- Project visuals are generated editorial mockups; image upload is not implemented.
 - JWT logout is client-side; server-side token revocation is not implemented.
 - The API has no rate limiter. Add one before exposing the login route to sustained public traffic.
 
