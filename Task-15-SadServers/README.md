@@ -33,7 +33,7 @@ To develop Linux command-line troubleshooting skills by solving the Command Line
 
 ### Successful Completion
 
-![Completion](images/SadServers.png)
+![Completion](images/SadServers-updated.png)
 
 ## Outcome
 
