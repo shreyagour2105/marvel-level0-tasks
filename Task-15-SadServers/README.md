@@ -29,11 +29,11 @@ To develop Linux command-line troubleshooting skills by solving the Command Line
 
 ### Investigation
 
-![Investigation](images/SadServers.png)
+![Investigation](images/SadServers1.png)
 
 ### Successful Completion
 
-![Completion](images/SadServers1.png)
+![Completion](images/SadServers.png)
 
 ## Outcome
 
